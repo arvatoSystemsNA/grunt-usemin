@@ -1,8 +1,14 @@
 {
-  "name": "grunt-usemin",
+  "name": "@com.arvatosystems.us.cloud/grunt-usemin",
   "version": "3.1.2",
   "license": "BSD-2-Clause",
   "author": "Yeoman",
+  "contributors": [
+    "Jesse Wang <jesse.wang@arvatosystems.com>"
+  ],
+  "publishConfig": {
+    "registry": "https://code.arvatosystems-us.com/nexus/content/repositories/releases/"
+  },
   "description": "Replaces references to non-optimized scripts or stylesheets into a set of HTML files (or any templates/views)",
   "keywords": [
     "gruntplugin",
@@ -12,7 +18,14 @@
     "css",
     "optimize"
   ],
-  "repository": "yeoman/grunt-usemin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvatoSystemsNA/grunt-usemin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arvatoSystemsNA/grunt-usemin/issues"
+  },
+  "homepage": "https://github.com/arvatoSystemsNA/grunt-usemin",
   "scripts": {
     "test": "grunt test"
   },
