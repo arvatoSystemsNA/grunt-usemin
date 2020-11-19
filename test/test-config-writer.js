@@ -1,8 +1,8 @@
 'use strict';
-var assert = require('assert');
-var helpers = require('./helpers');
-var Flow = require('../lib/flow.js');
-var ConfigWriter = require('../lib/configwriter.js');
+const assert = require('assert');
+const helpers = require('./helpers');
+const Flow = require('../lib/flow.js');
+const ConfigWriter = require('../lib/configwriter.js');
 
 describe('ConfigWriter', function () {
   before(helpers.directory('temp'));
@@ -11,25 +11,25 @@ describe('ConfigWriter', function () {
     it('should check its input');
 
     it('should allow for user-defined steps per block type', function () {
-      var copy = {
+      const copy = {
         name: 'copy',
         createConfig: function () {
           return {};
         }
       };
 
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify', copy]
         },
         post: {}
       });
-      var cfgw = new ConfigWriter(flow, {
+      const cfgw = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: '.tmp'
       });
-      var stepNames = [];
+      const stepNames = [];
       cfgw.stepWriters('js').forEach(function (s) {
         stepNames.push(s.name);
       });
@@ -40,24 +40,24 @@ describe('ConfigWriter', function () {
   });
 
   describe('process', function () {
-    var blocks = helpers.blocks();
+    const blocks = helpers.blocks();
 
     it('should check for input parameters');
 
     it('should output a set of config', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: '.tmp'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -80,20 +80,20 @@ describe('ConfigWriter', function () {
     });
 
     it('should have a configurable destination directory', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
 
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'destination',
         staging: '.tmp'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -116,20 +116,20 @@ describe('ConfigWriter', function () {
     });
 
     it('should have a configurable staging directory', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
 
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: 'staging'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -152,20 +152,20 @@ describe('ConfigWriter', function () {
     });
 
     it('should allow for single step flow', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['uglify']
         }
       });
 
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: 'staging'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         uglify: {
           generated: {
             files: [{
@@ -179,20 +179,20 @@ describe('ConfigWriter', function () {
     });
 
     it('should allow for a configuration of the flow\'s step order', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['uglify', 'concat']
         }
       });
 
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: 'staging'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         uglify: {
           generated: {
             files: [{
@@ -220,26 +220,26 @@ describe('ConfigWriter', function () {
     });
 
     it('should augment the furnished config', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
-      var config = {
+      let config = {
         concat: {
           misc: {
             'foo.js': 'bar.js'
           }
         }
       };
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'destination',
         staging: '.tmp'
       });
       config = c.process(file, config);
-      var expected = helpers.normalize({
+      const expected = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -267,20 +267,20 @@ describe('ConfigWriter', function () {
     it('should allow for a filename as input');
 
     it('should deduplicate blocks', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
-      var doubleBlocks = [blocks[0], blocks[0]];
-      var file = helpers.createFile('foo', 'app', doubleBlocks);
-      var c = new ConfigWriter(flow, {
+      const doubleBlocks = [blocks[0], blocks[0]];
+      const file = helpers.createFile('foo', 'app', doubleBlocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: '.tmp'
       });
-      var config = c.process(file);
-      var expected = helpers.normalize({
+      const config = c.process(file);
+      const expected = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -302,20 +302,20 @@ describe('ConfigWriter', function () {
       assert.deepEqual(config, expected);
     });
     it('should deduplicate blocks across files', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: '.tmp'
       });
-      var firstConfig = c.process(file);
-      var repeatConfig = c.process(file);
-      var expectedFirst = helpers.normalize({
+      const firstConfig = c.process(file);
+      const repeatConfig = c.process(file);
+      const expectedFirst = helpers.normalize({
         concat: {
           generated: {
             files: [{
@@ -333,7 +333,7 @@ describe('ConfigWriter', function () {
           }
         }
       });
-      var expectedRepeat = helpers.normalize({
+      const expectedRepeat = helpers.normalize({
         concat: {
           generated: {}
         },
@@ -346,12 +346,12 @@ describe('ConfigWriter', function () {
       assert.deepEqual(repeatConfig, expectedRepeat);
     });
     it('should throw with conflicting blocks', function () {
-      var flow = new Flow({
+      const flow = new Flow({
         steps: {
           js: ['concat', 'uglify']
         }
       });
-      var conflictBlock = {
+      const conflictBlock = {
         type: 'js',
         dest: 'scripts/site.js',
         searchPath: [],
@@ -371,8 +371,8 @@ describe('ConfigWriter', function () {
           '    <!-- endbuild -->'
         ]
       };
-      var file = helpers.createFile('foo', 'app', [blocks[0], conflictBlock]);
-      var c = new ConfigWriter(flow, {
+      const file = helpers.createFile('foo', 'app', [blocks[0], conflictBlock]);
+      const c = new ConfigWriter(flow, {
         input: 'app',
         dest: 'dist',
         staging: '.tmp'
@@ -384,18 +384,18 @@ describe('ConfigWriter', function () {
 
     describe('stepWriters', function () {
       it('should return all writers if called without block type', function () {
-        var flow = new Flow({
+        const flow = new Flow({
           steps: {
             js: ['concat', 'uglify'],
             css: ['concat']
           }
         });
-        var c = new ConfigWriter(flow, {
+        const c = new ConfigWriter(flow, {
           input: 'app',
           dest: 'destination',
           staging: '.tmp'
         });
-        var names = [];
+        const names = [];
         c.stepWriters().forEach(function (i) {
           names.push(i.name);
         });
@@ -404,13 +404,13 @@ describe('ConfigWriter', function () {
     });
 
     it('should not add the same block multiple times though we call process() explicitly 2 times.', function () {
-      var flow = new Flow({steps: {js: ['concat', 'uglify']}});
+      const flow = new Flow({steps: {js: ['concat', 'uglify']}});
 
-      var file = helpers.createFile('foo', 'app', blocks);
-      var c = new ConfigWriter(flow, {input: 'app', dest: 'destination', staging: '.tmp'});
-      var config = c.process(file);
-      config = c.process(file, config);  // This second process is intentional. Details are in issue #307.
-      var expected = helpers.normalize({
+      const file = helpers.createFile('foo', 'app', blocks);
+      const c = new ConfigWriter(flow, {input: 'app', dest: 'destination', staging: '.tmp'});
+      let config = c.process(file);
+      config = c.process(file, config); // This second process is intentional. Details are in issue #307.
+      const expected = helpers.normalize({
         concat: {generated: {files: [
           {dest: '.tmp/concat/scripts/site.js', src: ['app/foo.js', 'app/bar.js', 'app/baz.js']}
         ]}},

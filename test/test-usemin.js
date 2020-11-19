@@ -1,13 +1,13 @@
 'use strict';
-var path = require('path');
-var assert = require('assert');
-var grunt = require('grunt');
-var helpers = require('./helpers');
+const path = require('path');
+const assert = require('assert');
+const grunt = require('grunt');
+const helpers = require('./helpers');
 
 grunt.task.init([]);
 grunt.config.init({});
 
-var opts = grunt.cli.options;
+const opts = grunt.cli.options;
 opts.redirect = !opts.silent;
 
 describe('usemin', function () {
@@ -32,12 +32,11 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/index.html');
+      const changed = grunt.file.read('build/index.html');
 
       assert.ok(changed.match(/<img src="\/images\/test\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/\/images\/bar\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/images\/misc\/test\.2a436\.png">/));
-
     });
 
     it('should take into account alternate search path for assets', function () {
@@ -61,12 +60,11 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/index.html');
+      const changed = grunt.file.read('build/index.html');
 
       assert.ok(changed.match(/<img src="\/images\/test\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/\/images\/bar\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/images\/misc\/test\.2a436\.png">/));
-
     });
 
     it('should allow for several asset dirs', function () {
@@ -94,14 +92,13 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/index.html');
+      const changed = grunt.file.read('build/index.html');
 
       assert.ok(changed.match(/<img src="\/images\/test\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/\/images\/bar\.23012\.png">/));
       assert.ok(changed.match(/<img src="\/images\/misc\/test\.2a436\.png">/));
       assert.ok(changed.match(/<script src="\/scripts\/plugins\.12345\.js">/));
     });
-
   });
 
   describe('relative paths', function () {
@@ -125,12 +122,11 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/foo/index.html');
+      const changed = grunt.file.read('build/foo/index.html');
 
       assert.ok(changed.match(/<img src="\.\.\/images\/test\.23012\.png"\>/));
       assert.ok(changed.match(/<link rel=\"stylesheet\" href=\"styles\/main\.min\.css\">/));
       assert.ok(changed.match(/<img src=\"\.\.\/images\/misc\/test\.2a436\.png\">/));
-
     });
 
     it('should take into account alternate path for assets', function () {
@@ -155,7 +151,7 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/index.html');
+      const changed = grunt.file.read('build/index.html');
 
       assert.ok(changed.match(/<img src="\.\.\/images\/test\.23012\.png">/));
       assert.ok(changed.match(/<img src="\.\.\/images\/misc\/test\.2a436\.png">/));
@@ -186,14 +182,12 @@ describe('usemin', function () {
       grunt.task.run('usemin');
       grunt.task.start();
 
-      var changed = grunt.file.read('build/index.html');
+      const changed = grunt.file.read('build/index.html');
 
       assert.ok(changed.match(/<img src="\.\.\/images\/test\.23012\.png">/));
       assert.ok(changed.match(/<img src="\.\.\/images\/misc\/test\.2a436\.png">/));
       assert.ok(changed.match(/<script src="scripts\/plugins\.12345\.js">/));
-
     });
-
   });
 
   before(helpers.directory('temp'));
@@ -212,7 +206,7 @@ describe('usemin', function () {
     grunt.task.run('usemin');
     grunt.task.start();
 
-    var changed = grunt.file.read('style.css');
+    const changed = grunt.file.read('style.css');
 
     // Check replace has performed its duty
     assert.ok(changed.match(/url\(\"images\/test\.23012\.png\"/));
@@ -233,7 +227,7 @@ describe('usemin', function () {
     grunt.task.run('usemin');
     grunt.task.start();
 
-    var changed = grunt.file.read('index.html');
+    const changed = grunt.file.read('index.html');
 
     // Check replace has performed its duty
     assert.ok(changed.match('<a href="foo.html"></a>'));
@@ -258,7 +252,7 @@ describe('usemin', function () {
     grunt.file.copy(path.join(__dirname, 'fixtures/misc.js'), 'misc.js');
     grunt.task.run('usemin');
     grunt.task.start();
-    var changed = grunt.file.read('misc.js');
+    const changed = grunt.file.read('misc.js');
 
     // Check replace has performed its duty
     assert.ok(changed.match(/referenceToImage = 'image\.2132\.png'/));
@@ -269,7 +263,7 @@ describe('usemin', function () {
     grunt.file.write('images/test.2132.png', 'foo');
     grunt.file.write('images/test.2134.png', 'foo');
 
-    var summary = {};
+    const summary = {};
     summary[helpers.normalize('images/test.png')] = 'images/test.2134.png';
 
     grunt.file.write('summary.js', JSON.stringify(summary));
@@ -285,17 +279,16 @@ describe('usemin', function () {
     grunt.task.run('usemin');
     grunt.task.start();
 
-    var changed = grunt.file.read('index.html');
+    const changed = grunt.file.read('index.html');
     // Check replace has performed its duty
     assert.ok(changed.match('<img src="images/test.2134.png">'));
-
   });
 
   it('should use filerev map object when available', function () {
     // grunt.file.mkdir('images');
     // grunt.file.write('images/test.2132.png', 'foo');
     // grunt.file.write('images/test.2134.png', 'foo');
-    var summary = {};
+    const summary = {};
     summary[helpers.normalize('images/test.png')] = 'images/test.2134.png';
 
     grunt.filerev = {
@@ -311,7 +304,7 @@ describe('usemin', function () {
     grunt.task.start();
     grunt.filerev = null;
 
-    var changed = grunt.file.read('index.html');
+    const changed = grunt.file.read('index.html');
     // Check replace has performed its duty
     assert.ok(changed.match('<img src="images/test.2134.png">'));
   });
@@ -333,7 +326,7 @@ describe('usemin', function () {
     grunt.task.run('usemin');
     grunt.task.start();
 
-    var changed = grunt.file.read('index.html');
+    const changed = grunt.file.read('index.html');
     // Check replace has performed its duty
     assert.equal(changed, '<link rel="stylesheet" href="styles/main.css">');
   });
@@ -350,7 +343,7 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var concat = grunt.config('concat');
+    const concat = grunt.config('concat');
 
     assert.ok(concat);
     assert.ok(concat.generated.files);
@@ -361,7 +354,7 @@ describe('useminPrepare', function () {
     assert.equal(concat.generated.files[0].dest, path.normalize('.tmp/concat/styles/main.min.css'));
     assert.equal(concat.generated.files[0].src.length, 1);
 
-    var uglify = grunt.config('uglify');
+    const uglify = grunt.config('uglify');
 
     assert.equal(uglify.generated.files[0].dest, path.normalize('dist/scripts/plugins.js'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('.tmp/concat/scripts/plugins.js')]);
@@ -377,12 +370,12 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var concat = grunt.config('concat');
+    const concat = grunt.config('concat');
     assert.ok(concat);
     assert.equal(concat.generated.files[0].dest, path.normalize('.tmp/concat/scripts/foo.js'));
     assert.deepEqual(concat.generated.files[0].src, [path.normalize('build/scripts/bar.js'), path.normalize('build/scripts/baz.js')]);
 
-    var uglify = grunt.config('uglify');
+    const uglify = grunt.config('uglify');
     assert.equal(uglify.generated.files[0].dest, path.normalize('dist/scripts/foo.js'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('.tmp/concat/scripts/foo.js')]);
   });
@@ -399,12 +392,12 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var concat = grunt.config('concat');
+    const concat = grunt.config('concat');
     assert.ok(concat);
     assert.equal(concat.generated.files[0].dest, path.normalize('.tmp/concat/scripts/foo.js'));
     assert.equal(concat.generated.files[0].src.length, 2);
 
-    var uglify = grunt.config('uglify');
+    const uglify = grunt.config('uglify');
     assert.equal(uglify.generated.files[0].dest, path.normalize('dist/scripts/foo.js'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('.tmp/concat/scripts/foo.js')]);
   });
@@ -428,17 +421,17 @@ describe('useminPrepare', function () {
       grunt.task.run('useminPrepare');
       grunt.task.start();
 
-      var concat = grunt.config('concat');
+      const concat = grunt.config('concat');
       assert.ok(concat);
       assert.ok(concat.generated);
       assert.equal(concat.generated.files.length, 1);
-      var files = concat.generated.files[0];
+      let files = concat.generated.files[0];
 
       assert.equal(files.dest, path.normalize('.tmp/concat/scripts/foo.js'));
       assert.equal(files.src.length, 2);
       assert.equal(files.src[0], path.normalize('foo/scripts/bar.js'));
 
-      var uglify = grunt.config('uglify');
+      const uglify = grunt.config('uglify');
       assert.equal(uglify.generated.files.length, 1);
       files = uglify.generated.files[0];
       assert.equal(files.dest, path.normalize('dist/scripts/foo.js'));
@@ -458,11 +451,11 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var uglify = grunt.config('uglify');
+    const uglify = grunt.config('uglify');
     assert.equal(uglify.generated.files[0].dest, path.normalize('foo/scripts/plugins.js'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('.tmp/concat/scripts/plugins.js')]);
-
   });
+
   it('should take staging option into consideration', function () {
     grunt.log.muted = true;
     grunt.config.init();
@@ -476,11 +469,10 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var concat = grunt.config('concat');
-    var uglify = grunt.config('uglify');
+    const concat = grunt.config('concat');
+    const uglify = grunt.config('uglify');
     assert.equal(concat.generated.files[0].dest, path.normalize('foo/concat/styles/main.min.css'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('foo/concat/scripts/plugins.js')]);
-
   });
 
   it('should take staging option into consideration', function () {
@@ -496,10 +488,9 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var uglify = grunt.config('uglify');
+    const uglify = grunt.config('uglify');
     assert.equal(uglify.generated.files[0].dest, path.normalize('dist/scripts/plugins.js'));
     assert.deepEqual(uglify.generated.files[0].src, [path.normalize('foo/concat/scripts/plugins.js')]);
-
   });
 
   it('should have configurable flow', function () {
@@ -520,17 +511,16 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var uglify = grunt.config('uglify');
-    var concat = grunt.config('concat');
+    const uglify = grunt.config('uglify');
+    const concat = grunt.config('concat');
 
     assert.equal(concat, null);
     assert.ok(uglify);
 
     assert.equal(uglify.generated.files.length, 1);
-    var files = uglify.generated.files[0];
+    const files = uglify.generated.files[0];
 
     assert.equal(files.dest, path.normalize('dist/scripts/plugins.js'));
-
   });
 
   it('should have configurable flow per target', function () {
@@ -553,25 +543,24 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var uglify = grunt.config('uglify');
-    var concat = grunt.config('concat');
+    const uglify = grunt.config('uglify');
+    const concat = grunt.config('concat');
 
     assert.equal(concat, null);
     assert.ok(uglify);
     assert.equal(uglify.generated.files.length, 1);
-    var files = uglify.generated.files[0];
+    const files = uglify.generated.files[0];
     assert.equal(files.dest, path.normalize('dist/scripts/plugins.js'));
-
   });
 
 
   it('should allow use to furnish new steps of the flow', function () {
-    var copy = {
+    const copy = {
       name: 'copy',
       createConfig: function (context, block) {
-        var cfg = {};
-        var files = {};
-        var inFiles = [];
+        const cfg = {};
+        const files = {};
+        const inFiles = [];
         context.inFiles.forEach(function (file) {
           inFiles.push(path.join(context.inDir, file));
         });
@@ -598,18 +587,17 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var copyCfg = grunt.config('copy');
+    const copyCfg = grunt.config('copy');
 
     assert.ok(copyCfg);
     assert.equal(copyCfg.generated.files[0].dest, path.normalize('dist/scripts/plugins.js'));
   });
 
   it('should allow to post configure generated steps', function () {
-
-    var concatPostConfig = {
+    const concatPostConfig = {
       name: 'concat',
       createConfig: function (context) {
-        var generated = context.options.generated;
+        const generated = context.options.generated;
         generated.options = {
           foo: 'bar'
         };
@@ -636,11 +624,10 @@ describe('useminPrepare', function () {
     grunt.task.run('useminPrepare');
     grunt.task.start();
 
-    var concatCfg = grunt.config('concat');
-    var options = concatCfg.generated.options;
+    const concatCfg = grunt.config('concat');
+    const options = concatCfg.generated.options;
 
     assert.ok(options);
     assert.equal(options.foo, 'bar');
-
   });
 });

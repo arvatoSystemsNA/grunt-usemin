@@ -5,10 +5,10 @@ module.exports = function (grunt) {
 
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
       },
       gruntfile: {
-        src: 'Gruntfile.js'
+        src: 'Gruntfile.js',
       },
       core: {
         src: ['lib/**/*.js', 'tasks/*.js']
@@ -18,9 +18,9 @@ module.exports = function (grunt) {
       }
     },
 
-    jscs: {
+    eslint: {
       options: {
-        config: '.jscsrc'
+        configFile: '.eslintrc.json'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>'
@@ -39,11 +39,11 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-cli');
 
   grunt.loadTasks('tasks');
 
-  grunt.registerTask('default', ['jshint', 'jscs', 'mochacli']);
+  grunt.registerTask('default', ['jshint', 'eslint', 'mochacli']);
   grunt.registerTask('test', 'default');
 };

@@ -1,14 +1,14 @@
 'use strict';
-var util = require('util');
-var chalk = require('chalk');
+const util = require('util');
+const chalk = require('chalk');
 
 // Retrieve the flow config from the furnished configuration. It can be:
 //  - a dedicated one for the furnished target
 //  - a general one
 //  - the default one
-var getFlowFromConfig = function (config, target) {
-  var Flow = require('../lib/flow');
-  var flow = new Flow({
+const getFlowFromConfig = function (config, target) {
+  const Flow = require('../lib/flow');
+  const flow = new Flow({
     steps: {
       js: ['concat', 'uglify'],
       css: ['concat', 'cssmin']
@@ -34,8 +34,8 @@ var getFlowFromConfig = function (config, target) {
 // - a map object produced by grunt-filerev if available
 // - a disk lookup
 //
-var getLocator = function (grunt, options) {
-  var locator;
+const getLocator = function (grunt, options) {
+  let locator;
   if (options.revmap) {
     locator = grunt.file.readJSON(options.revmap);
   } else if (grunt.filerev && grunt.filerev.summary) {
@@ -98,21 +98,21 @@ var getLocator = function (grunt, options) {
 //
 
 module.exports = function (grunt) {
-  var FileProcessor = require('../lib/fileprocessor');
-  var RevvedFinder = require('../lib/revvedfinder');
-  var ConfigWriter = require('../lib/configwriter');
-  var _ = require('lodash');
+  const FileProcessor = require('../lib/fileprocessor');
+  const RevvedFinder = require('../lib/revvedfinder');
+  const ConfigWriter = require('../lib/configwriter');
+  const _ = require('lodash');
 
   grunt.registerMultiTask('usemin', 'Replaces references to non-minified scripts / stylesheets', function () {
-    var debug = require('debug')('usemin:usemin');
-    var options = this.options({
+    const debug = require('debug')('usemin:usemin');
+    const options = this.options({
       type: this.target
     });
-    var blockReplacements = options.blockReplacements || {};
+    const blockReplacements = options.blockReplacements || {};
 
     debug('Looking at %s target', this.target);
-    var patterns = [];
-    var type = this.target;
+    let patterns = [];
+    const type = this.target;
 
     // Check if we have a user defined pattern
     if (options.patterns && options.patterns[this.target]) {
@@ -120,15 +120,15 @@ module.exports = function (grunt) {
       patterns = options.patterns[this.target];
     }
 
-    // var locator = options.revmap ? grunt.file.readJSON(options.revmap) : function (p) { return grunt.file.expand({filter: 'isFile'}, p); };
-    var locator = getLocator(grunt, options);
-    var revvedfinder = new RevvedFinder(locator);
-    var handler = new FileProcessor(type, patterns, revvedfinder, function (msg) {
+    // const locator = options.revmap ? grunt.file.readJSON(options.revmap) : function (p) { return grunt.file.expand({filter: 'isFile'}, p); };
+    const locator = getLocator(grunt, options);
+    const revvedfinder = new RevvedFinder(locator);
+    const handler = new FileProcessor(type, patterns, revvedfinder, function (msg) {
       grunt.verbose.writeln(msg);
     }, blockReplacements);
 
     this.files.forEach(function (fileObj) {
-      var files = grunt.file.expand({
+      const files = grunt.file.expand({
         nonull: true,
         filter: 'isFile'
       }, fileObj.src);
@@ -138,11 +138,10 @@ module.exports = function (grunt) {
         grunt.verbose.writeln(chalk.bold('Processing as ' + options.type.toUpperCase() + ' - ') + chalk.cyan(filename));
 
         // Our revved version locator
-        var content = handler.process(filename, options.assetsDirs);
+        const content = handler.process(filename, options.assetsDirs);
 
         // write the new content to disk
         grunt.file.write(filename, content);
-
       });
 
       grunt.log.writeln('Replaced ' + chalk.cyan(files.length) + ' ' +
@@ -152,38 +151,38 @@ module.exports = function (grunt) {
   });
 
   grunt.registerMultiTask('useminPrepare', 'Using HTML markup as the primary source of information', function () {
-    var options = this.options();
+    const options = this.options();
     // collect files
-    var dest = options.dest || 'dist';
-    var staging = options.staging || '.tmp';
-    var root = options.root;
+    const dest = options.dest || 'dist';
+    const staging = options.staging || '.tmp';
+    const root = options.root;
 
     grunt.verbose
-      .writeln('Going through ' + grunt.log.wordlist(this.filesSrc) + ' to update the config')
-      .writeln('Looking for build script HTML comment blocks');
+        .writeln('Going through ' + grunt.log.wordlist(this.filesSrc) + ' to update the config')
+        .writeln('Looking for build script HTML comment blocks');
 
-    var flow = getFlowFromConfig(grunt.config('useminPrepare'), this.target);
+    const flow = getFlowFromConfig(grunt.config('useminPrepare'), this.target);
 
-    var c = new ConfigWriter(flow, {
+    const c = new ConfigWriter(flow, {
       root: root,
       dest: dest,
       staging: staging
     });
 
-    var cfgNames = [];
+    const cfgNames = [];
     c.stepWriters().forEach(function (i) {
       cfgNames.push(i.name);
     });
     c.postWriters().forEach(function (i) {
       cfgNames.push(i.name);
     });
-    var gruntConfig = {};
+    const gruntConfig = {};
     _.forEach(cfgNames, function (name) {
       gruntConfig[name] = grunt.config(name) || {};
     });
 
     this.filesSrc.forEach(function (filepath) {
-      var config;
+      let config;
       try {
         config = c.process(filepath, grunt.config());
       } catch (e) {
@@ -194,14 +193,13 @@ module.exports = function (grunt) {
         gruntConfig[name] = grunt.config(name) || {};
         grunt.config(name, _.assign(gruntConfig[name], config[name]));
       });
-
     });
 
     // log a bit what was added to config
     grunt.verbose.subhead('Configuration is now:');
     _.forEach(cfgNames, function (name) {
       grunt.verbose.subhead('  ' + name + ':')
-        .writeln('  ' + util.inspect(grunt.config(name), false, 4, true, true));
+          .writeln('  ' + util.inspect(grunt.config(name), false, 4, true, true));
     });
 
     // only displayed if not in verbose mode

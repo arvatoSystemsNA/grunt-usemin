@@ -1,13 +1,13 @@
 'use strict';
-var path = require('path');
-var fs = require('fs');
-var rimraf = require('rimraf');
-var mkdirp = require('mkdirp');
-var _ = require('lodash');
-var helpers = module.exports;
+const path = require('path');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const mkdirp = require('mkdirp');
+const _ = require('lodash');
+const helpers = module.exports;
 
-helpers.directory = function directory(dir) {
-  return function directory(done) {
+helpers.directory = function directory (dir) {
+  return function directory (done) {
     process.chdir(__dirname);
     rimraf(dir, function (err) {
       if (err) {
@@ -81,7 +81,7 @@ helpers.file = {
     return fs.writeFileSync(path, content);
   },
   copy: function (srcFile, destFile, encoding) {
-    var content = fs.readFileSync(srcFile, encoding);
+    const content = fs.readFileSync(srcFile, encoding);
     fs.writeFileSync(destFile, content, encoding);
   }
 };
@@ -89,14 +89,14 @@ helpers.file = {
 helpers.makeFinder = function (mapping) {
   return {
     find: function (s, b) {
-      var output;
+      let output;
       if (_.isString(b)) {
         b = [b];
       }
-      var dir = _.find(b, function (d) {
+      const dir = _.find(b, function (d) {
         return mapping[path.join(d, s).replace(/\\/g, '/')];
       });
-      var file = typeof dir !== 'undefined' ? mapping[path.join(dir, s).replace(/\\/g, '/')] : s;
+      const file = typeof dir !== 'undefined' ? mapping[path.join(dir, s).replace(/\\/g, '/')] : s;
 
       if (_.isArray(file)) {
         output = file[0];
@@ -120,11 +120,11 @@ helpers.normalize = function (object) {
     if (_.isString(object)) {
       object = path.normalize(object);
     } else if (_.isArray(object)) {
-      for (var i = 0; i < object.length; i++) {
+      for (let i = 0; i < object.length; i++) {
         object[i] = helpers.normalize(object[i]);
       }
     } else {
-      for (var prop in object) {
+      for (const prop in object) {
         if (object.hasOwnProperty(prop)) {
           if (prop.indexOf('/') !== -1) {
             object[path.normalize(prop)] = helpers.normalize(object[prop]);

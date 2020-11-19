@@ -1,9 +1,9 @@
 'use strict';
-var assert = require('assert');
-var concatConfig = require('../lib/config/concat.js');
-var path = require('path');
+const assert = require('assert');
+const concatConfig = require('../lib/config/concat.js');
+const path = require('path');
 
-var block = {
+const block = {
   type: 'js',
   dest: 'scripts/site.js',
   src: [
@@ -26,16 +26,16 @@ describe('Concat config write', function () {
   });
 
   it('should use the input files correctly', function () {
-    var ctx = {
+    const ctx = {
       inDir: '.',
       inFiles: ['foo.js', 'bar.js', 'baz.js'],
       outDir: 'tmp/concat',
       outFiles: []
     };
-    var cfg = concatConfig.createConfig(ctx, block);
+    const cfg = concatConfig.createConfig(ctx, block);
     assert.ok(cfg.files);
     assert.equal(cfg.files.length, 1);
-    var files = cfg.files[0];
+    const files = cfg.files[0];
 
     assert.ok(files.src);
     assert.equal(files.dest, path.normalize('tmp/concat/scripts/site.js'));

@@ -1,2 +1,2 @@
-var referenceToImage = 'image.png';
-var anotherVariable;
+const referenceToImage = 'image.png';
+const anotherVariable;

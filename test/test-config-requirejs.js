@@ -1,9 +1,9 @@
 'use strict';
-var assert = require('assert');
-var requirejsConfig = require('../lib/config/requirejs.js');
-var helpers = require('./helpers');
+const assert = require('assert');
+const requirejsConfig = require('../lib/config/requirejs.js');
+const helpers = require('./helpers');
 
-var block = {
+const block = {
   type: 'js',
   dest: 'scripts/amd-app.js',
   requirejs: {
@@ -23,7 +23,7 @@ var block = {
   ]
 };
 
-var blockWithoutRequirejs = {
+const blockWithoutRequirejs = {
   type: 'js',
   dest: 'scripts/amd-app.js',
   src: [
@@ -38,15 +38,14 @@ var blockWithoutRequirejs = {
 
 
 describe('Requirejs config write', function () {
-
   it('should use the input files correctly', function () {
-    var ctx = {
+    const ctx = {
       inDir: 'zzz',
       inFiles: ['foo.js'],
       outDir: 'tmp/requirejs',
       outFiles: []
     };
-    var cfg = requirejsConfig.createConfig(ctx, block);
+    const cfg = requirejsConfig.createConfig(ctx, block);
     assert.deepEqual(cfg, helpers.normalize({
       'default': {
         options: {
@@ -60,27 +59,26 @@ describe('Requirejs config write', function () {
   });
 
   it('should do nothing if the block is not requirejs enabled', function () {
-    var ctx = {
+    const ctx = {
       inDir: 'zzz',
       inFiles: ['foo.js'],
       outDir: 'tmp/requirejs',
       outFiles: []
     };
-    var cfg = requirejsConfig.createConfig(ctx, blockWithoutRequirejs);
+    const cfg = requirejsConfig.createConfig(ctx, blockWithoutRequirejs);
     assert.deepEqual(cfg, {});
   });
 
   it('should add a .js when needed to mainConfigFile', function () {
-    var ctx = {
+    const ctx = {
       inDir: 'zzz',
       inFiles: ['foo.js'],
       outDir: 'tmp/requirejs',
       outFiles: []
     };
-    var cfg = requirejsConfig.createConfig(ctx, block);
+    const cfg = requirejsConfig.createConfig(ctx, block);
     assert.equal(cfg['default'].options.mainConfigFile, helpers.normalize('zzz/scripts/main.js'));
   });
 
   it('should treat multi-config requirejs');
-
 });

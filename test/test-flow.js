@@ -1,13 +1,13 @@
 'use strict';
-var assert = require('assert');
-var helpers = require('./helpers');
-var Flow = require('../lib/flow.js');
+const assert = require('assert');
+const helpers = require('./helpers');
+const Flow = require('../lib/flow.js');
 
 describe('Flow', function () {
   before(helpers.directory('temp'));
 
   it('should allow steps per block type', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       steps: {
         js: ['bar', 'baz'],
         css: ['foo']
@@ -18,7 +18,7 @@ describe('Flow', function () {
   });
 
   it('should be able to return post-processors per block type', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       post: {
         js: ['bar', 'baz'],
         css: ['foo']
@@ -29,7 +29,7 @@ describe('Flow', function () {
   });
 
   it('should return all block types', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       steps: {
         js: ['bar', 'baz'],
         css: ['foo']
@@ -42,7 +42,7 @@ describe('Flow', function () {
   });
 
   it('should return an empty array if no steps are existing', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       steps: {},
       post: {
         html: ['bar']
@@ -52,7 +52,7 @@ describe('Flow', function () {
   });
 
   it('should return an empty array if no post are existing', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       post: {},
       steps: {
         html: ['bar']
@@ -62,7 +62,7 @@ describe('Flow', function () {
   });
 
   it('should allow to set steps', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       steps: {
         html: ['bar']
       }
@@ -74,7 +74,7 @@ describe('Flow', function () {
   });
 
   it('should allow to set post-processors', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       post: {
         html: ['bar']
       }
@@ -86,7 +86,7 @@ describe('Flow', function () {
   });
 
   it('should rename uglifyjs to uglify in steps', function () {
-    var flow = new Flow({});
+    const flow = new Flow({});
     flow.setSteps({
       js: ['uglifyjs']
     });
@@ -95,7 +95,7 @@ describe('Flow', function () {
   });
 
   it('should rename uglifyjs to uglify in steps given to contructor', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       steps: {
         js: ['uglifyjs']
       }
@@ -105,7 +105,7 @@ describe('Flow', function () {
   });
 
   it('should rename uglifyjs to uglify in post-processors', function () {
-    var flow = new Flow({});
+    const flow = new Flow({});
     flow.setPost({
       js: ['uglifyjs']
 
@@ -115,7 +115,7 @@ describe('Flow', function () {
   });
 
   it('should rename uglifyjs to uglify in post-processors given to contructor', function () {
-    var flow = new Flow({
+    const flow = new Flow({
       post: {
         js: ['uglifyjs']
       }
@@ -123,5 +123,4 @@ describe('Flow', function () {
 
     assert.deepEqual(flow.post('js'), ['uglify']);
   });
-
 });
