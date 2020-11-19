@@ -1,27 +1,10 @@
-# grunt-usemin [![Linux Build Status](https://img.shields.io/travis/yeoman/grunt-usemin/master.svg?style=flat&label=Linux%20build)](https://travis-ci.org/yeoman/grunt-usemin) [![Windows Build status](https://img.shields.io/appveyor/ci/addyosmani/grunt-usemin/master.svg?style=flat&label=Windows%20build)](https://ci.appveyor.com/project/addyosmani/grunt-usemin/branch/master)
-[![Gitter](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/yeoman/yeoman)
+# grunt-usemin
 
 > Replaces references from non-optimized scripts, stylesheets and other assets to their optimized version within a set of HTML files (or any templates/views).
 
-## Important
-
-3.1.0 has a breaking change with `uglify` step renamed to `uglify` to be consistent with `grunt-contrib-uglify` task which name is `uglify` (and not `uglifyjs`).
-
-Stick to 3.0.0 while we find a good solution to not have a breaking change while having name consistency.
-
-## [Maintainer wanted](https://github.com/yeoman/grunt-usemin/issues/313)
-
-## Notice
-
-`grunt-usemin` is going under some major developments to tackle the long list of issues. As they might break with `master` they are merged into [dev branch](https://github.com/yeoman/grunt-usemin/tree/dev).
-
-Currently what has been merged:
-
-- Support for a `resolveSource` function option
-- Warning for any missing files instead of silent errors
-- Migrate from regex to HTML parser
-- Support for multiple target *(current)*
-
+## About
+The original developer archived [yeoman/grunt-usemin](https://github.com/yeoman/grunt-usemin) and there has not been any meaningful updates since 2015.
+The goal of this repository is to keep libraries up-to-date based on `npm audit` and adopt modern JavaScript coding standards like ES6.
 
 ## Getting Started
 
@@ -264,7 +247,7 @@ useminPrepare: {
         js: [{
           name: 'uglify',
           createConfig: function (context, block) {
-            var generated = context.options.generated;
+            const generated = context.options.generated;
             generated.options = {
               foo: 'bar'
             };
